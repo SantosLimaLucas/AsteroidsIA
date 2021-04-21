@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import time
-from regras_jogo.regras_abstratas import construir_jogo
+from regras_jogo.asteroids_regras_joo import construir_jogo
 from regras_jogo.personagens import Personagens
 from agentes.abstrato import construir_agente
 from agentes.tipos import TiposAgentes
+
 
 def ler_tempo(em_turnos=False):
     """ Se o jogo for em turnos, retorna a passada de 1 rodada.
@@ -19,8 +20,8 @@ def iniciar_jogo():
     
     # Inicializar e configurar jogo
     jogo = construir_jogo()
-    personagem_jogador = jogo.registrarAgentePersonagem(Personagens.O_JOGADOR)
-    agente_jogador = construir_agente(TiposAgentes.PREPOSTO_HUMANO, Personagens.O_JOGADOR)
+    personagem_jogador = jogo.registrarAgentePersonagem(Personagens.JOGADOR_ASTEROIDS)
+    agente_jogador = construir_agente(TiposAgentes.PREPOSTO_HUMANO, Personagens.JOGADOR_ASTEROIDS)
     
     tempo_de_jogo = 0
     while not jogo.isFim():

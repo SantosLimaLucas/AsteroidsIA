@@ -1,4 +1,4 @@
 from enum import Enum
 
 class Personagens(Enum):
-    O_JOGADOR = "O Jogador"
+    JOGADOR_ASTEROIDS = "Jogador_asteroids"

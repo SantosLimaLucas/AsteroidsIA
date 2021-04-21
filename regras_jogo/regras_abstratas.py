@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from construtorJogo import construtor
+
 
 class AbstractRegrasJogo(ABC):
     """ Interface mínima para implementar um jogo interativo e modular. Não
@@ -56,6 +56,6 @@ def construir_jogo(*args,**kwargs):
     """ Método factory para uma instância RegrasJogo arbitrária, de acordo com os
     parâmetros. Pode-se mudar à vontade a assinatura do método.
     """
-    construtor
-    construtor.a
+
+
     #return NomeDoSeuJogo()
