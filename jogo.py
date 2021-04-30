@@ -21,23 +21,30 @@ def iniciar_jogo():
     # Inicializar e configurar jogo
     jogo = construir_jogo()
     personagem_jogador = jogo.registrarAgentePersonagem(Personagens.JOGADOR_ASTEROIDS)
-    agente_jogador = construir_agente(TiposAgentes.PREPOSTO_HUMANO, Personagens.JOGADOR_ASTEROIDS)
+    agente_jogador = construir_agente(TiposAgentes.AUTO_BFS, Personagens.JOGADOR_ASTEROIDS)
     
     tempo_de_jogo = 0
-    while not jogo.isFim():
-        
-        # Mostrar mundo ao jogador
+    finalizou = False
+    while not finalizou:
+        while not jogo.isFim():
+            # Mostrar mundo ao jogador
+            ambiente_perceptivel = jogo.gerarCampoVisao(personagem_jogador)
+            agente_jogador.adquirirPercepcao(ambiente_perceptivel)
+
+            # Decidir jogada e apresentar ao jogo
+            acao = agente_jogador.escolherProximaAcao()
+            jogo.registrarProximaAcao(personagem_jogador, acao)
+
+            # Atualizar jogo
+            tempo_corrente = ler_tempo()
+            jogo.atualizarEstado(tempo_corrente - tempo_de_jogo)
+            tempo_de_jogo += tempo_corrente
         ambiente_perceptivel = jogo.gerarCampoVisao(personagem_jogador)
         agente_jogador.adquirirPercepcao(ambiente_perceptivel)
-        
-        # Decidir jogada e apresentar ao jogo
-        acao = agente_jogador.escolherProximaAcao()
-        jogo.registrarProximaAcao(personagem_jogador, acao)
-
-        # Atualizar jogo
         tempo_corrente = ler_tempo()
         jogo.atualizarEstado(tempo_corrente - tempo_de_jogo)
         tempo_de_jogo += tempo_corrente
+        finalizou = True
 
 
 if __name__ == '__main__':

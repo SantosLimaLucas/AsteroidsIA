@@ -1,0 +1,125 @@
+from typing import Tuple, Set, Sequence
+from dataclasses import dataclass
+from regras_jogo.personagens import Personagens
+from percepcoes import PercepcoesJogador
+from enum import Enum
+from acoes import DirecaoMoverNave
+
+
+class Asteroide:
+    x: int
+    y: int
+
+    def asteroide(self) -> Tuple[int, int]:
+        return Tuple[self.x, self.y]
+
+
+@dataclass
+class EstadoAsteroids:
+    estado_bala: "pronto"
+    pos_asteroids: Set[Asteroide]
+    dimensoes: Tuple[int, int] = (800, 600)
+    posicao_nave: Tuple[int, int] = (400, 500)
+
+
+class MoverNave(Enum):
+    MOVER_NAVE = 'Mover_nave'
+
+class DirecaoMoverNave(Enum):
+    MOVER_PARA_DIREITA = 'Mover_para_direita'
+    MOVER_PARA_ESQUERDA = 'Mover_para_esquerda'
+    ATIRAR = 'Atirar'
+
+@dataclass
+class AcaoJogador():
+    tipo: str
+    parametros: tuple = tuple()
+
+    @classmethod
+    def dirigirNave(cls, direcao: DirecaoMoverNave) -> MoverNave:
+        return cls(MoverNave.MOVER_NAVE, direcao)
+
+
+class ProblemaAsteroide:
+
+    @staticmethod
+    def estado_inicial(self,*args, **kwargs) -> EstadoAsteroids:
+        posicao_asteroides = {
+            (200, 150), (300, 150), (400, 150), (500, 150)
+        }
+
+        self.asteroides = posicao_asteroides
+        self.id_personagens = {Personagens.JOGADOR_ASTEROIDS: 0}
+        self.posicaoNave = (400, 500)
+        self.dimensoes = (800, 600)
+        '''self.posicaoBala = self.posicaoNave[0]+20'''
+        self.estadoBala = "pronto"
+
+        percepcoes_jogador = PercepcoesJogador(
+            pos_asteroids=set(self.asteroides),
+            dimensoes=self.dimensoes,
+            posicao_nave=self.posicaoNave,
+            estado_bala=self.estadoBala
+        )
+        return percepcoes_jogador
+
+    @staticmethod
+    def acoes(estado: EstadoAsteroids) -> Sequence[DirecaoMoverNave]:
+        acoes_possiveis = list()
+        asteroide_mais_proximo = ProblemaAsteroide.encontrarAsteroideProximo(estado.posicao_nave[0], estado.pos_asteroids)
+        if(asteroide_mais_proximo[0] > estado.posicao_nave[0]):
+            acoes_possiveis.append(DirecaoMoverNave.MOVER_PARA_DIREITA)
+        if (asteroide_mais_proximo[0] < estado.posicao_nave[0]):
+            acoes_possiveis.append(DirecaoMoverNave.MOVER_PARA_ESQUERDA)
+        if (asteroide_mais_proximo[0] == estado.posicao_nave[0]):
+            acoes_possiveis.append(DirecaoMoverNave.ATIRAR)
+
+        return acoes_possiveis
+    def encontrarAsteroideProximo(xNave, posicaoAsteroides: list):
+        print(f"Os asteroides sao {posicaoAsteroides}")
+        proximo = (1000, 150)
+        for asteroide in posicaoAsteroides:
+            xAsteroide = asteroide[0]
+            if ((xAsteroide - xNave) < (proximo[0] - xNave)):
+                proximo = asteroide
+        return proximo
+
+
+    @staticmethod
+    def resultado(estado: EstadoAsteroids, acao: DirecaoMoverNave) -> EstadoAsteroids:
+
+        estado_resultante = estado
+
+
+        if acao == DirecaoMoverNave.MOVER_PARA_DIREITA:
+            x = estado_resultante.posicao_nave[0] + 10
+            y = estado_resultante.posicao_nave[1]
+
+            estado_resultante.posicao_nave = (x, y)
+
+        elif acao == DirecaoMoverNave.MOVER_PARA_ESQUERDA:
+            x = estado_resultante.posicao_nave[0] - 10
+            y = estado_resultante.posicao_nave[1]
+
+            estado_resultante.posicao_nave = (x, y)
+
+        elif acao == DirecaoMoverNave.ATIRAR:
+            alvo = (estado_resultante.posicao_nave[0], 150)
+            if alvo in estado_resultante.pos_asteroids:
+                estado_resultante.pos_asteroids.discard(alvo)
+
+        else:
+            print(acao)
+            raise ValueError("Movimento especificado inválido, cheater!")
+
+        return estado_resultante
+
+    @staticmethod
+    def teste_objetivo(estado: EstadoAsteroids) -> bool:
+        return len(estado.pos_asteroids) == 0
+
+'''    @staticmethod
+    def custo(inicial: EstadoRestaUm, acao: Mover,
+              resultante: EstadoRestaUm) -> int:
+        """Custo em quantidade de jogadas"""
+        return 1'''

@@ -40,7 +40,10 @@ class AgentePrepostoESHumano(AgenteAbstrato):
             xNave = start_linha
         if (xNave >= end_linha):
             xNave = end_linha
-
+        if (percepcao_mundo.estado_bala == "atirando"):
+            self.screen.blit(self.bulletImg, (xNave+4,90))
+            print(yNave)
+            print(percepcao_mundo.posicao_nave)
         for linha in range(start_linha, end_linha):
             for coluna in range(start_coluna, colunas):
 
@@ -52,6 +55,7 @@ class AgentePrepostoESHumano(AgenteAbstrato):
                 if (linha, coluna) == (xNave, yNave):
                     self.screen.blit(self.naveImg, (xNave, coluna))
                     pygame.display.update()
+
 
     def escolherProximaAcao(self):
         jogada = None

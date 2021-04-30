@@ -22,5 +22,5 @@ def construir_agente(*args, **kwargs):
     """ Método factory para uma instância Agente arbitrária, de acordo com os
     paraâmetros. Pode-se mudar à vontade a assinatura do método.
     """
-    from agentes.humano import AgentePrepostoESHumano
-    return AgentePrepostoESHumano()
+    from agentes.bfs import AgenteAutomaticoBFS
+    return AgenteAutomaticoBFS()

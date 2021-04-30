@@ -21,7 +21,7 @@ class RegrasAsteroids(AbstractRegrasJogo):
         self.acoes_personagens = {0: None}
         self.posicaoNave = (400,500)
         self.dimensoes = (800,600)
-        self.posicaoBala = (self.posicaoNave[0]+20,480)
+        '''self.posicaoBala = self.posicaoNave[0]+20'''
         self.estadoBala = "pronto"
         self.msg_jogador = None
 
@@ -51,7 +51,6 @@ class RegrasAsteroids(AbstractRegrasJogo):
             pos_asteroids=set(self.asteroides),
             dimensoes=self.dimensoes,
             posicao_nave=self.posicaoNave,
-            posicao_bala=self.posicaoBala,
             estado_bala=self.estadoBala
             )
 
@@ -93,11 +92,12 @@ class RegrasAsteroids(AbstractRegrasJogo):
 
                         if (linha, coluna) in self.asteroides:
                             if (self.estadoBala == "atirando"):
-                                if linha == self.posicaoNave[0]:
-                                    print(f"Remover linha: {linha} coluna {coluna}")
+                                if self.posicaoNave[0] in range(linha -30, linha +11):
                                     self.asteroides.discard((linha, coluna))
-                                    print(self.asteroides)
-                                    self.estadoBala = "pronto"
+                                    self.posicaoBala = self.posicaoNave[0]
+
+            else:
+                self.estadoBala = "pronto"
 
 
 

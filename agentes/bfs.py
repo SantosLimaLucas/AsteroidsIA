@@ -1,8 +1,11 @@
 from agentes.abstrato import AgenteAbstrato
+from agentes.problemas.asteroids import ProblemaAsteroide
 import pygame
+import time
 from acoes import AcaoJogador, DirecaoMoverNave
+from .buscadores.busca import busca_arvore_bfs
 
-class AgentePrepostoESHumano(AgenteAbstrato):
+class AgenteAutomaticoBFS(AgenteAbstrato):
 
 
     pygame.init()
@@ -21,11 +24,39 @@ class AgentePrepostoESHumano(AgenteAbstrato):
     # asteroides
     asteroideImg = pygame.image.load('imagens/asteroide.png')
 
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.prblema: ProblemaAsteroide = None
+        self.solucao: list = None
+
 
     def adquirirPercepcao(self, percepcao_mundo):
-        """ Inspeciona a disposicao dos elementos no objeto de visao e escreve
-        na tela para o usuário saber o que seu agente está percebendo.
+        """ Inspeciona a disposicao dos elementos no objeto de visao.
         """
+        AgenteAutomaticoBFS.desenharMundo(self, percepcao_mundo)
+
+        if not self.solucao:
+            self.problema = ProblemaAsteroide()  # TODO: # percepcao_mundo)
+
+
+
+    def escolherProximaAcao(self):
+        if not self.solucao:
+            no_solucao = busca_arvore_bfs(self, self.problema)
+            self.solucao = no_solucao.caminho_acoes()
+            print(f"isso aqui {len(self.solucao)}  {self.solucao}")
+            if not self.solucao:
+                raise Exception("Agente BFS não encontrou solução.")
+
+        acao = self.solucao.pop()
+        print(f"Próxima ação é {acao}.")
+        time.sleep(2)
+
+        print(f"A acao retornada é: {acao} ")
+        '''return AcaoJogador.dirigirNave'''
+
+    def desenharMundo(self, percepcao_mundo):
         self.screen.fill((0, 0, 0,))
         self.screen.blit(self.fundoImg, (0, 0))
         linhas, colunas = percepcao_mundo.dimensoes
@@ -40,7 +71,10 @@ class AgentePrepostoESHumano(AgenteAbstrato):
             xNave = start_linha
         if (xNave >= end_linha):
             xNave = end_linha
-
+        if (percepcao_mundo.estado_bala == "atirando"):
+            self.screen.blit(self.bulletImg, (xNave + 4, 90))
+            print(yNave)
+            print(percepcao_mundo.posicao_nave)
         for linha in range(start_linha, end_linha):
             for coluna in range(start_coluna, colunas):
 
@@ -52,18 +86,3 @@ class AgentePrepostoESHumano(AgenteAbstrato):
                 if (linha, coluna) == (xNave, yNave):
                     self.screen.blit(self.naveImg, (xNave, coluna))
                     pygame.display.update()
-
-    def escolherProximaAcao(self):
-        jogada = None
-        while not jogada:
-            for event in pygame.event.get():
-                if event.type ==pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        return AcaoJogador.dirigirNave(DirecaoMoverNave.MOVER_PARA_ESQUERDA)
-                        jogada ="jogou"
-                    if event.key == pygame.K_RIGHT:
-                        return AcaoJogador.dirigirNave(DirecaoMoverNave.MOVER_PARA_DIREITA)
-                        jogada = "jogou"
-                    if event.key == pygame.K_SPACE:
-                        return AcaoJogador.dirigirNave(DirecaoMoverNave.ATIRAR)
-                        jogada = "jogou"
