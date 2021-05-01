@@ -1,6 +1,7 @@
 from typing import Any, Optional
 from dataclasses import dataclass
-
+from percepcoes import PercepcoesJogador
+from agentes.Desenhador import Desenhador_mundo
 
 class ProblemaSemSolucaoException(Exception):
     pass
@@ -10,7 +11,6 @@ class ProblemaSemSolucaoException(Exception):
 class No():
     estado: Any
     acao: Optional[Any] = None
-    custo_solucao: int = 0
     pai: Optional['No'] = None
 
     def calcular_profundidade(self):
@@ -33,26 +33,32 @@ class No():
     def __repr__(self) -> str:
         return f'No({self.estado!r},{self.acao!r})'
 
-
-def busca_em_arvore(self, problema) -> No:
+solucao = []
+def busca_em_arvoreBFS(self, problema) -> No:
     """ Retorna uma solucao ou falha"""
     borda = [No(problema.estado_inicial(self))]
     while borda:
-
         folha = borda.pop(0)
-        print(f"Altura {folha.calcular_profundidade()}, com {len(borda)} nós na borda.")
         if problema.teste_objetivo(folha.estado):
-            print(f"Folha é {folha}")
             return folha
-
-        # print(f'Não era objetivo. Ações adjacentes são {problema.acoes(folha.estado)}.')
         for acao in problema.acoes(folha.estado):
             expandido = No.criar_no_filho(problema, folha, acao)
-            print(f"Expandido é {expandido}")
             borda.append(expandido)
-
-            # print(f'Enfileirado {expandido}')
-
+            Desenhador_mundo.DesenharMundo(self, expandido.estado)
     raise ProblemaSemSolucaoException()
 
-busca_arvore_bfs = busca_em_arvore
+def busca_em_arvoreDFS(self, problema) -> No:
+    """ Retorna uma solucao ou falha"""
+    borda = [No(problema.estado_inicial(self))]
+    while borda:
+        folha = borda.pop()
+        if problema.teste_objetivo(folha.estado):
+            return folha
+        for acao in problema.acoes(folha.estado):
+            expandido = No.criar_no_filho(problema, folha, acao)
+            borda.append(expandido)
+            Desenhador_mundo.DesenharMundo(self, expandido.estado)
+    raise ProblemaSemSolucaoException()
+
+busca_arvore_bfs = busca_em_arvoreBFS
+busca_arvore_dfs = busca_em_arvoreDFS

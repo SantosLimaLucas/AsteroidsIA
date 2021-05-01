@@ -72,32 +72,36 @@ class RegrasAsteroids(AbstractRegrasJogo):
         """
         acao_jogador = self.acoes_personagens[
             self.id_personagens[Personagens.JOGADOR_ASTEROIDS]]
-        if acao_jogador.tipo == MoverNave.MOVER_NAVE:
-            direcao =acao_jogador.parametros
-            if direcao == DirecaoMoverNave.MOVER_PARA_ESQUERDA:
-                soma = self.posicaoNave[0]-10
-                '''o valor 500 é padrão pois a nave somente deve movimentar no eixo x'''
-                self.posicaoNave = (soma, 500)
-            if direcao == DirecaoMoverNave.MOVER_PARA_DIREITA:
-                soma = self.posicaoNave[0]+10
-                '''o valor 500 é padrão pois a nave somente deve movimentar no eixo x'''
-                self.posicaoNave = (soma, 500)
-            if direcao == DirecaoMoverNave.ATIRAR:
-                self.estadoBala = "atirando"
-                start_linha = -300
-                start_coluna = 0
-                end_linha = 730
-                for linha in range(start_linha, end_linha):
-                    for coluna in range(start_coluna, self.dimensoes[1]):
+        if acao_jogador ==None:
+            self.asteroides = []
+            RegrasAsteroids.isFim(self)
+        else:
+            if acao_jogador.tipo == MoverNave.MOVER_NAVE:
+                direcao =acao_jogador.parametros
+                if direcao == DirecaoMoverNave.MOVER_PARA_ESQUERDA:
+                    soma = self.posicaoNave[0]-10
+                    '''o valor 500 é padrão pois a nave somente deve movimentar no eixo x'''
+                    self.posicaoNave = (soma, 500)
+                if direcao == DirecaoMoverNave.MOVER_PARA_DIREITA:
+                    soma = self.posicaoNave[0]+10
+                    '''o valor 500 é padrão pois a nave somente deve movimentar no eixo x'''
+                    self.posicaoNave = (soma, 500)
+                if direcao == DirecaoMoverNave.ATIRAR:
+                    self.estadoBala = "atirando"
+                    start_linha = -300
+                    start_coluna = 0
+                    end_linha = 730
+                    for linha in range(start_linha, end_linha):
+                        for coluna in range(start_coluna, self.dimensoes[1]):
 
-                        if (linha, coluna) in self.asteroides:
-                            if (self.estadoBala == "atirando"):
-                                if self.posicaoNave[0] in range(linha -30, linha +11):
-                                    self.asteroides.discard((linha, coluna))
-                                    self.posicaoBala = self.posicaoNave[0]
+                            if (linha, coluna) in self.asteroides:
+                                if (self.estadoBala == "atirando"):
+                                    if self.posicaoNave[0] in range(linha -30, linha +11):
+                                        self.asteroides.discard((linha, coluna))
+                                        self.posicaoBala = self.posicaoNave[0]
 
-            else:
-                self.estadoBala = "pronto"
+                else:
+                    self.estadoBala = "pronto"
 
 
 

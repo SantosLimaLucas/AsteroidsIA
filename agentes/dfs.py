@@ -1,12 +1,11 @@
 from agentes.abstrato import AgenteAbstrato
-from agentes.problemas.asteroids import ProblemaAsteroide
+from agentes.problemas.asteroids import ProblemAsteroideDFS
 import pygame
-import time
 from agentes.Desenhador import Desenhador_mundo
-from .buscadores.busca import busca_arvore_bfs
+from .buscadores.busca import busca_arvore_dfs
 
 
-class AgenteAutomaticoBFS(AgenteAbstrato):
+class AgenteAutomaticoDFS(AgenteAbstrato):
 
 
     pygame.init()
@@ -28,24 +27,24 @@ class AgenteAutomaticoBFS(AgenteAbstrato):
     def __init__(self) -> None:
         super().__init__()
 
-        self.prblema: ProblemaAsteroide = None
+        self.prblema: ProblemAsteroideDFS = None
         self.solucao: list = None
 
 
     def adquirirPercepcao(self, percepcao_mundo):
         """ Inspeciona a disposicao dos elementos no objeto de visao.
         """
-        AgenteAutomaticoBFS.desenharMundo(self, percepcao_mundo)
+        AgenteAutomaticoDFS.desenharMundo(self, percepcao_mundo)
 
         if not self.solucao:
-            self.problema = ProblemaAsteroide()  # TODO: # percepcao_mundo)
+            self.problema = ProblemAsteroideDFS()  # TODO: # percepcao_mundo)
 
 
 
     def escolherProximaAcao(self):
         if not self.solucao:
-            solucao = busca_arvore_bfs(self, self.problema)
-            if not ProblemaAsteroide.teste_objetivo(solucao.estado):
+            solucao = busca_arvore_dfs(self, self.problema)
+            if not ProblemAsteroideDFS.teste_objetivo(solucao.estado):
                 raise Exception("Agente BFS não encontrou solução.")
 
 

@@ -1,3 +1,4 @@
+from agentes.tipos import TiposAgentes
 from abc import ABC, abstractmethod
 class AgenteAbstrato(ABC):
     '''
@@ -23,4 +24,11 @@ def construir_agente(*args, **kwargs):
     paraâmetros. Pode-se mudar à vontade a assinatura do método.
     """
     from agentes.bfs import AgenteAutomaticoBFS
-    return AgenteAutomaticoBFS()
+    from agentes.humano import AgentePrepostoESHumano
+    from agentes.dfs import AgenteAutomaticoDFS
+    if args[0] is TiposAgentes.AUTO_BFS:
+        return AgenteAutomaticoBFS()
+    if args[0] is TiposAgentes.PREPOSTO_HUMANO:
+        return AgentePrepostoESHumano()
+    if args[0] is TiposAgentes.AUTO_DFS:
+        return AgenteAutomaticoDFS()
