@@ -13,7 +13,7 @@ class RegrasAsteroids(AbstractRegrasJogo):
     def __init__(self) -> None:
         super().__init__()
         posicao_asteroides = {
-                (200,150), (300,150), (400,150), (500,150)
+                (300, 150), (400, 150), (200, 150), (500, 150)
             }
 
         self.asteroides = posicao_asteroides

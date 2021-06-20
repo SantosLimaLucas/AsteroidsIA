@@ -24,11 +24,17 @@ def construir_agente(*args, **kwargs):
     paraâmetros. Pode-se mudar à vontade a assinatura do método.
     """
     from agentes.bfs import AgenteAutomaticoBFS
+    from agentes.buscaGulosaRetrocesso import AgenteAutomaticoGuloso
     from agentes.humano import AgentePrepostoESHumano
     from agentes.dfs import AgenteAutomaticoDFS
+    from agentes.buscaA import AgenteAutomaticoA
     if args[0] is TiposAgentes.AUTO_BFS:
         return AgenteAutomaticoBFS()
     if args[0] is TiposAgentes.PREPOSTO_HUMANO:
         return AgentePrepostoESHumano()
     if args[0] is TiposAgentes.AUTO_DFS:
         return AgenteAutomaticoDFS()
+    if args[0] is TiposAgentes.AUTO_GULOSO:
+        return AgenteAutomaticoGuloso()
+    if args[0] is TiposAgentes.AUTO_AE:
+        return AgenteAutomaticoA()

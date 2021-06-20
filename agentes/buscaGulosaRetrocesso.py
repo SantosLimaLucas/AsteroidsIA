@@ -1,11 +1,11 @@
 from agentes.abstrato import AgenteAbstrato
-from agentes.problemas.asteroids import ProblemaAsteroide
+from agentes.heuristicaproj3.heuristicaAsteroids import ProblemaAsteroide
 import pygame
 from agentes.Desenhador import Desenhador_mundo
-from .buscadores.busca import busca_arvore_bfs
+from .buscadores.busca import buscagulosa
 
 
-class AgenteAutomaticoBFS(AgenteAbstrato):
+class AgenteAutomaticoGuloso(AgenteAbstrato):
 
 
     pygame.init()
@@ -34,7 +34,7 @@ class AgenteAutomaticoBFS(AgenteAbstrato):
     def adquirirPercepcao(self, percepcao_mundo):
         """ Inspeciona a disposicao dos elementos no objeto de visao.
         """
-        AgenteAutomaticoBFS.desenharMundo(self, percepcao_mundo)
+        AgenteAutomaticoGuloso.desenharMundo(self, percepcao_mundo)
 
         if not self.solucao:
             self.problema = ProblemaAsteroide()  # TODO: # percepcao_mundo)
@@ -43,9 +43,9 @@ class AgenteAutomaticoBFS(AgenteAbstrato):
 
     def escolherProximaAcao(self):
         if not self.solucao:
-            solucao = busca_arvore_bfs(self, self.problema)
+            solucao = buscagulosa(self, self.problema)
             if not ProblemaAsteroide.teste_objetivo(solucao.estado):
-                raise Exception("Agente BFS não encontrou solução.")
+                raise Exception("Agente de busca gulosa não encontrou solução.")
 
 
         #time.sleep(2)

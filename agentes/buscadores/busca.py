@@ -60,5 +60,67 @@ def busca_em_arvoreDFS(self, problema) -> No:
             Desenhador_mundo.DesenharMundo(self, expandido.estado)
     raise ProblemaSemSolucaoException()
 
+
+def busca_gulosa(self, problema) -> No:
+    fronteira = [No(problema.estado_inicial(self))]
+    while fronteira:
+        adjacentes = fronteira.pop()
+        if problema.teste_objetivo(adjacentes.estado):
+            return adjacentes
+        for acao in problema.acoes(adjacentes.estado):
+            expandido = No.criar_no_filho(problema, adjacentes, acao)
+            fronteira.append(expandido)
+            Desenhador_mundo.DesenharMundo(self, expandido.estado)
+    raise ProblemaSemSolucaoException()
+
+def busca_Ae(self, problema) -> No:
+    pass
+
+
+class Busca_AEstrela:
+    def __init__(self, objetivo):
+        self.objetivo = objetivo
+        self.achou = False
+
+    def buscar(self, atual):
+        atual.visitado = True
+
+        if atual == self.objetivo:
+            print("Objetivo {} foi alcançado. ".format(self.objetivo.nome))
+            self.achou = True
+        else:
+            self.fronteira = No.criar_no_filho(len(atual.adjacentes))
+            for a in atual.adjacentes:
+                if a.cidade.visitado == False:
+                    a.cidade.visitado = True
+                    self.fronteira.inserir(a)
+            self.fronteira.mostrar()
+            if self.fronteira.getPrimeiro() != None:
+                Busca_AEstrela.buscar(self, self.fronteira.getPrimeiro())
+
+
+class Busca_gulosa:
+    def __init__(self, objetivo):
+        self.objetivo = objetivo
+        self.achou = False
+
+    def buscar(self, atual):
+        atual.visitado = True
+
+        if atual == self.objetivo:
+            self.achou = True
+        else:
+            self.fronteira = No.criar_no_filho(len(atual.adjacentes))
+            for i in atual.adjacentes:
+                if i.cidade.visitado == False:
+                    i.cidade.visitado = True
+                    self.fronteira.inserir(i.cidade)
+            self.fronteira.mostrar()
+            if self.fronteira.getPrimeiro() != None:
+                Busca_gulosa.buscar(self, self.fronteira.getPrimeiro())
+
+
 busca_arvore_bfs = busca_em_arvoreBFS
 busca_arvore_dfs = busca_em_arvoreDFS
+buscagulosa = busca_gulosa
+buscaAe = busca_Ae

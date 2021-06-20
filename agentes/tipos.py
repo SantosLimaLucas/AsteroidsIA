@@ -4,6 +4,8 @@ class TiposAgentes(Enum):
     PREPOSTO_HUMANO = 'Preposto humano'
     AUTO_BFS = 'Automático BFS'
     AUTO_DFS = 'Automático DFS'
+    AUTO_GULOSO = 'Automático Guloso'
+    AUTO_AE = 'Automático AEstrela'
     
     # adicionar outros tipos de agentes de acordo com
     # o necessário

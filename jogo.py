@@ -21,7 +21,7 @@ def iniciar_jogo():
     # Inicializar e configurar jogo
     jogo = construir_jogo()
     personagem_jogador = jogo.registrarAgentePersonagem(Personagens.JOGADOR_ASTEROIDS)
-    agente_jogador = construir_agente(TiposAgentes.AUTO_DFS, Personagens.JOGADOR_ASTEROIDS)
+    agente_jogador = construir_agente(TiposAgentes.AUTO_GULOSO, Personagens.JOGADOR_ASTEROIDS)
     tempo_de_jogo = 0
     finalizou = False
     while not finalizou:
