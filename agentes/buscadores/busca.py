@@ -74,7 +74,16 @@ def busca_gulosa(self, problema) -> No:
     raise ProblemaSemSolucaoException()
 
 def busca_Ae(self, problema) -> No:
-    pass
+    fronteira = [No(problema.estado_inicial(self))]
+    while fronteira:
+        adjacentes = fronteira.pop()
+        if problema.teste_objetivo(adjacentes.estado):
+            return adjacentes
+        for acao in problema.acoes(adjacentes.estado):
+            expandido = No.criar_no_filho(problema, adjacentes, acao)
+            fronteira.append(expandido)
+            Desenhador_mundo.DesenharMundo(self, expandido.estado)
+    raise ProblemaSemSolucaoException()
 
 
 class Busca_AEstrela:
